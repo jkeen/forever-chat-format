@@ -12,7 +12,7 @@ Output should be an array of hashes, and each object in the array is a JSON obje
 
 Name              | Type              | Description
 -----------       | -------           |   -------------
-sha               | string            | sha1 of [address, date, text, service]
+sha               | string            | sha1 of [participants, date, text, service]
 sender            | string            | The handle of the person sending the message
 receiver          | string            | The handle of the person receiving the message
 is_from_me        | boolean           | true if you sent the message
@@ -24,6 +24,7 @@ participants      | array             | (see definition below) An array of strin
 message_text      | string            | text representation of the message
 message_segments  | array             | (see definition below) ordered segments of content as it appears in the message
 attachments       | array             | (see definition below) array of attachments
+\_debug            | object            | (optional) debug information to help trace back to the source of the data
 
 
 ####Message Segment Definition
@@ -48,6 +49,16 @@ text        | string     |                    | the rendered name of the link, o
 ```json
 {"type": "file", "file_type": "image/png", "path": "/path/to/image.png"}
 ```
+
+
+##### Attachments
+Array of attachments in the order they were received. Each attachment has the following properties. This information
+should also be made available in message_segments.
+
+Name        |  Type     
+----------- |  -------  
+path        | string    
+type        | string    
 
 
 ##Tests:

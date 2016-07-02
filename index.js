@@ -50,7 +50,7 @@ function runTests(promiseOrData) {
       var duplicates = [];
 
       var shas = _.map(data, function(d) {
-        var s = JSON.parse(d).sha;
+        var s = d.sha;
         if (shaMap[s]) {
           duplicates.push(d);
           duplicates.push(shaMap[s]);
@@ -66,7 +66,7 @@ function runTests(promiseOrData) {
 
     it('each date is set properly and in ISO-8601 format', function() {
       var dates = _.map(data, function(d) {
-        return JSON.parse(d).date;
+        return d.date;
       });
 
       expect(dates.length).to.be.equal(data.length);
@@ -75,7 +75,7 @@ function runTests(promiseOrData) {
 
     it('each date_read is set properly and in ISO-8601 format', function() {
       var dates = _.compact(_.map(data, function(d) {
-        return JSON.parse(d).date_read;
+        return d.date_read;
       }));
 
       expect(findInvalidDates(dates).length).to.be.equal(0);
@@ -83,7 +83,7 @@ function runTests(promiseOrData) {
 
     it('each date_delivered is set properly and in ISO-8601 format', function() {
       var dates = _.compact(_.map(data, function(d) {
-        return JSON.parse(d).date_delivered;
+        return d.date_delivered;
       }));
 
       expect(findInvalidDates(dates).length).to.be.equal(0);
@@ -91,7 +91,7 @@ function runTests(promiseOrData) {
 
     it('each date_read is set properly and in ISO-8601 format', function() {
       var dates = _.compact(_.map(data, function(d) {
-        return JSON.parse(d).date_read;
+        return d.date_read;
       }));
 
       expect(findInvalidDates(dates).length).to.be.equal(0);
@@ -99,7 +99,7 @@ function runTests(promiseOrData) {
 
     it('attachment array is a thing', function() {
       var attachments = _.map(data, function(d) {
-        return JSON.parse(d).attachments;
+        return d.attachments;
       });
 
       _.each(attachments, function(d) {
@@ -109,7 +109,7 @@ function runTests(promiseOrData) {
 
     it('participants always includes sender and receiver', function() {
       return _.each(data, function(d) {
-        var message = JSON.parse(d);
+        var message = d;
         expect(message.participants).to.contain(message.sender);
         _.each(message.receiver, function(r) {
           expect(message.participants).to.contain(r);
