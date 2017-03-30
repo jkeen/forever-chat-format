@@ -5,7 +5,7 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var _ = require('underscore');
+var _ = require('lodash');
 
 function findInvalidDates(dates) {
   var badDates = [];
@@ -25,7 +25,7 @@ function runTests(promiseOrData) {
   // Give this a promise or data and it'll run through the tests to figure out
   // if the data conforms with the universal chat format
 
-  describe('conforms to universal chat format V 1.0', function() {
+  describe('conforms to universal chat format', function() {
     before(function(done) {
       this.timeout(30000);
 
@@ -59,9 +59,13 @@ function runTests(promiseOrData) {
         return s;
       });
 
-      var uniques = _.unique(shas);
+      var uniques = _.uniq(shas);
       expect(shas.length).to.be.equal(data.length, "each message should have a sha");
-      expect(duplicates.length).to.be.equal(0, "each sha should be unique " + JSON.stringify(duplicates));
+      expect(duplicates.length).to.be.equal(0, "each sha should be unique ");
+
+      _.each(duplicates, function(d) {
+        console.log(JSON.stringify(d));
+      });
     });
 
     it('each date is set properly and in ISO-8601 format', function() {
@@ -104,6 +108,20 @@ function runTests(promiseOrData) {
 
       _.each(attachments, function(d) {
         expect(d).to.be.a('array');
+      });
+    });
+
+    it('attachment array has a type and a path', function() {
+      var attachments = _.map(data, function(d) {
+        if (d.attachments.length > 0) {
+          return d.attachments;
+        }
+      });
+      _.each(_.compact(attachments), function(d) {
+        _.each(d, function(attachment) {
+          expect(attachment.path).to.be.a('string');
+          expect(attachment.type).to.be.a('string');
+        });
       });
     });
 

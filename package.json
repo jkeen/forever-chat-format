@@ -1,6 +1,6 @@
 {
   "name": "forever-chat-format",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tests to validate that a chat exporter conforms to forever chat format standards",
   "main": "index.js",
   "devDependencies": {

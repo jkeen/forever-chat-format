@@ -1,14 +1,16 @@
-##Forever Chat Format
+## Forever Chat Format
 
-##Why
+
+
+## Why
 
 Because in the world where our communication is siloed into Google Hangouts, Facebook, iMessage, WhatsApp, etc etc it's getting hard to hold onto conversations for archival purposes. First thing we need is a universal format that we can export those proprietary chats into that's easy to understand, and that can be relied upon.
 
-##Basic Format
+## Basic Format
 
 Output should be an array of hashes, and each object in the array is a JSON object defined as follows:
 
-##Chat Object Definition:
+## Chat Object Definition
 
 Name              | Type              | Description
 -----------       | -------           |   -------------
@@ -24,10 +26,12 @@ participants      | array             | (see definition below) An array of strin
 message_text      | string            | text representation of the message
 message_segments  | array             | (see definition below) ordered segments of content as it appears in the message
 attachments       | array             | (see definition below) array of attachments
-\_debug            | object            | (optional) debug information to help trace back to the source of the data
+associated_sha    | string            | sha of message this message is in response to. Generally used for reactions
+message_meta      | string            | sha message this message is in response to. Generally used for reactions
+\_debug           | object            | (optional) debug information to help trace back to the source of the data
 
 
-####Message Segment Definition
+#### Message Segment Definition
 
 Name        |  Type      |  Possible Values    | Description
 ----------- |  -------   |  -----------------  | -------------
@@ -49,7 +53,10 @@ text        | string     |                    | the rendered name of the link, o
 ```json
 {"type": "file", "file_type": "image/png", "path": "/path/to/image.png"}
 ```
-
+##### Reaction Segment
+```json
+{"type": "reaction", "reaction_type": "", "text": "Why hello there"}
+```
 
 ##### Attachments
 Array of attachments in the order they were received. Each attachment has the following properties. This information
