@@ -14,10 +14,11 @@ Output should be an array of hashes, and each object in the array is a JSON obje
 
 Name              | Type              | Description
 -----------       | -------           |   -------------
-sha               | string            | sha1 of [participants, date, text, service]
+sha               | string            | sha1 of [sender, receiver, date, text, service]
 sender            | string            | The handle of the person sending the message
 receiver          | string            | The handle of the person receiving the message
 is_from_me        | boolean           | true if you sent the message
+send_error        | boolean           | true if the message didn't send
 date              | ISO-8601 datetime | date message was sent/received by sender
 service           | string            | Service message was sent using. All lowercase, dasherized. 'imessage', 'google-hangouts', 'facebook-messenger', 'sms'
 date_read         | ISO-8601 datetime | (optional) date message was sent/read by receiver
@@ -27,7 +28,6 @@ message_text      | string            | text representation of the message
 message_segments  | array             | (see definition below) ordered segments of content as it appears in the message
 attachments       | array             | (see definition below) array of attachments
 associated_sha    | string            | sha of message this message is in response to. Generally used for reactions
-message_meta      | string            | sha message this message is in response to. Generally used for reactions
 \_debug           | object            | (optional) debug information to help trace back to the source of the data
 
 

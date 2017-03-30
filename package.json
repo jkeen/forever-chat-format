@@ -1,6 +1,6 @@
 {
   "name": "forever-chat-format",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Tests to validate that a chat exporter conforms to forever chat format standards",
   "main": "index.js",
   "devDependencies": {
@@ -10,7 +10,7 @@
     "lodash": "^4.12.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec --debug"
   },
   "author": "Jeff Keen",
   "license": "ISC"
