@@ -1,6 +1,6 @@
 {
   "name": "forever-chat-format",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tests to validate that a chat exporter conforms to forever chat format standards",
   "main": "index.js",
   "devDependencies": {
@@ -14,6 +14,5 @@
   },
   "author": "Jeff Keen",
   "license": "ISC",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
