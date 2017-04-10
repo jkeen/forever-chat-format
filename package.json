@@ -13,5 +13,7 @@
     "test": "mocha --reporter spec --debug"
   },
   "author": "Jeff Keen",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+  }
 }

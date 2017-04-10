@@ -4,7 +4,6 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
-
 var _ = require('lodash');
 
 function findInvalidDates(data, field, allowBlank) {
@@ -36,7 +35,7 @@ function runTests(promiseOrData, name) {
 
   describe('conforms to universal chat format (' + name + ')', function() {
     before(function(done) {
-      this.timeout(30000);
+      this.timeout(45000);
 
       if ('function' === typeof promiseOrData.then) {
         return promiseOrData.then(function(d) {
@@ -45,8 +44,10 @@ function runTests(promiseOrData, name) {
         }, function(reason) {
           done();
         });
-      } else {
-          data = promiseOrData;
+      }
+      else { // not a promise
+        data = promiseOrData;
+        done();
       }
     });
 
@@ -138,20 +139,21 @@ function runTests(promiseOrData, name) {
     it('sender and receiver are set, and participants always includes both', function() {
       return _.each(data, function(d) {
         var message = d;
-        let problems = []
-        if (!message.sender || !message.receiver || message.receiver.length === 0) {
-          problems.push(d)
-          // console.log(problems);
+
+        if (!message.sender || !message.receiver || message.receiver.length === 0 || !_.includes(message.participants, message.sender)) {
+          console.log(message);
+        }
+        else if (!_.includes(_.map(message.receiver, r => _.includes(message.participants, r)), true)) {
+          console.log(message);
         }
 
-        if (!message.is_from_me) {
-          expect(message.sender).to.be.a('string', 'sender should not be blank');
+        if (!message.is_from_me || message.is_from_me === 0) {
+          expect(message.sender).to.be.a('string', "sender should not be blank");
         }
         expect(message.receiver).to.be.a('array');
         expect(message.receiver.length).to.be.greaterThan(0, "should include one or more receivers");
 
         let people = [].concat(message.receiver).push(message.sender)
-
         _.each(people, function(r) {
           expect(message.participants).to.contain(r, "participants should include sender and receivers");
         });
