@@ -68,11 +68,42 @@ path        | string
 type        | string    
 
 
-##Tests:
+##### Usage
 The included tests check whether some json is valid forever chat format.
+
 ```javascript
 var foreverJson    = importer("test.json"); // done by an exporter
 
-var formatTests    = require('forever-chat-format-tests');
-formatTests(foreverJson);
+var {validate, runTests} = require('forever-chat-format-tests');
+
+runTests(foreverJson); // runs mocha tests on data
+```
+
+The last step of your exporter should be to pass your exported data to the `prepare` function. It will check that the data conforms to the forever-chat-format spec and then return a hash with two keys: `messages`, and `validations`. Messages is all the data your exporter returned, and validations are what you see below:
+
+```json
+
+"validations": {
+  "version":           1.2 // forever chat version
+  "checkedCount":      100 // number of records checked
+  "errorCount":        0   // number of records with errors
+  "recordsWithErrors":
+  "ruleResults": { /* each rule keyed by name with errorCount and "erroredRecords" */
+    "unique-sha": {
+      "description":    "Each record should have a unique sha",
+      "errorCount":     0,
+      "erroredRecords": []
+    }
+
+    ...
+  }
+}
+```
+
+##### Testing
+
+```javascript
+var foreverJson   = importer("test.json"); // done by an exporter
+var {validate, runTests} = require('forever-chat-format-tests');
+runTests(foreverJson);
 ```
