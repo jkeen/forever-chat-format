@@ -11,13 +11,14 @@
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-mocha": "^4.9.0",
     "lodash": "^4.12.0",
-    "mocha": "^2.3.4",
-    "prettyoutput": "^1.1.1"
+    "mocha": "^2.3.4"
   },
   "scripts": {
     "test": "mocha --reporter spec --debug"
   },
   "author": "Jeff Keen",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "prettyoutput": "^1.1.1"
+  }
 }

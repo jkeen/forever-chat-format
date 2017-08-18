@@ -1,5 +1,5 @@
-var validate = require('./validate');
-var runTests = require('./test');
+var validate = require("./validate");
+var runTests = require("./test");
 
 function prepare(data) {
   return {
@@ -8,4 +8,4 @@ function prepare(data) {
   };
 }
 
-module.exports = {validate, runTests, prepare};
+module.exports = { validate, runTests, prepare };

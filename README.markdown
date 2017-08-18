@@ -55,7 +55,7 @@ text        | string     |                    | the rendered name of the link, o
 ```
 ##### Reaction Segment
 ```json
-{"type": "reaction", "reaction_type": "", "text": "Why hello there"}
+{"type": "reaction", "reaction_type": "laughed"}
 ```
 
 ##### Attachments
