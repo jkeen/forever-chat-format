@@ -26,6 +26,21 @@ var rules = [
     }
   },
   {
+    name: "correct-keys",
+    description: "Each item has correct keys",
+    check: function(row) {
+      let existingKeys = Object.keys(row);
+      let requiredKeys = ['sha', 'sender', 'receiver', 'is_from_me', 'date', 'participants', 'message_text', 'message_segments', 'attachments'];
+
+      let presentRequiredKeys = _.intersection(existingKeys, requiredKeys);
+      let missingRequiredKeys = _.difference(requiredKeys, presentRequiredKeys);
+
+      if (missingRequiredKeys.length !== 0) {
+        logError(row, this, `missing keys ${JSON.stringify(missingRequiredKeys)}`);
+      }
+    }
+  },
+  {
     name: "optional-date-read",
     description: "Optional date_read is in required format",
     check: function(row) {
@@ -67,7 +82,7 @@ var rules = [
             }
           }
           else if (segment.type === 'file') {
-            if (!segment.path) {
+            if (!(_.includes(Object.keys(segment), 'path'))) {
               logError(row, _this, "file segment needs a path");
             }
           }
@@ -106,6 +121,26 @@ var rules = [
     description: "Attachment array has a type and a path",
     check: function(row) {
       let rule = this;
+      let formatError = false;
+
+      if (row.attachments && row.attachments.length > 0) {
+        _.each(row.attachments, function(attachment) {
+          if (_.includes(Object.keys(attachment), ['path', 'type'])) {
+            formatError = true;
+          }
+        });
+
+        if (formatError) {
+          logError(row, rule, "path and type are required");
+        }
+      }
+    }
+  },
+  {
+    name: "attachment-missing",
+    description: "Attachments are present",
+    check: function(row) {
+      let rule = this;
       let pathError = false;
 
       if (row.attachments && row.attachments.length > 0) {
@@ -116,7 +151,7 @@ var rules = [
         });
 
         if (pathError) {
-          logError(row, rule, "path is required");
+          logError(row, rule, "attachment is missing");
         }
       }
     }
@@ -175,7 +210,7 @@ function logError(row, rule, details) {
     rule.recordsWithErrors = [];
   }
 
-  rule.recordsWithErrors.push({row: row, error: details});
+  rule.recordsWithErrors.push({row: row, error: rule.name});
 
   if (!errorRow) {
     errorRow = errorsByRow[row.sha] = {

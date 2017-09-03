@@ -1,4 +1,4 @@
-var mocha = require('mocha');
+require('mocha');
 var chai   = require('chai');
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
@@ -35,6 +35,14 @@ function runTests(promiseOrData, name) {
       expect(data.validations.ruleResults['unique-sha']['errorCount']).to.be.equal(0, "each message should have a unique sha");
     });
 
+    it('each item has correct keys', function() {
+      if (data.validations.ruleResults['correct-keys']['errorCount'] > 0) {
+        console.log(prettyoutput(data.validations.ruleResults['receiver-required']['erroredRecords'], {maxDepth: 7}));
+      }
+
+      expect(data.validations.ruleResults['correct-keys']['errorCount']).to.be.equal(0, "each message should have the correct keys");
+    });
+
     it('each item has a date in the correct format', function() {
       if (data.validations.ruleResults['required-date']['errorCount'] > 0) {
         console.log(prettyoutput(data.validations.ruleResults['required-date']['erroredRecords'], {maxDepth: 7}));
@@ -53,7 +61,7 @@ function runTests(promiseOrData, name) {
 
     it('each item that has a date_delivered is in the correct format', function() {
       if (data.validations.ruleResults['optional-date-delivered']['errorCount'] > 0) {
-        console.log(prettyoutput(data.validations.ruleResults['optional-date-delivered']['erroredRecords'], {maxDepth: 7}));
+        // console.log(prettyoutput(data.validations.ruleResults['optional-date-delivered']['erroredRecords'], {maxDepth: 7}));
       }
 
       expect(data.validations.ruleResults['optional-date-delivered']['errorCount']).to.be.equal(0, "each message should have a date_delivered in the correct format");
@@ -65,6 +73,14 @@ function runTests(promiseOrData, name) {
       }
 
       expect(data.validations.ruleResults['attachment-array']['errorCount']).to.be.equal(0, "each message should have a correct attachment");
+    });
+
+    it('each item with listed attachment should have attachment path', function() {
+      if (data.validations.ruleResults['attachment-missing']['errorCount'] > 0) {
+        console.log(prettyoutput(data.validations.ruleResults['attachment-missing']['erroredRecords'], {maxDepth: 7}));
+      }
+
+      expect(data.validations.ruleResults['attachment-missing']['errorCount']).to.be.equal(0, "each attachment should have a path");
     });
 
     it('each item has a sender', function() {
