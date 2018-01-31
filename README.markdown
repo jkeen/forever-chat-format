@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/dt/forever-chat-format.svg)]()
+
 ## Forever Chat Format
 
 
